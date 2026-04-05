@@ -103,7 +103,7 @@ const Advantages: React.FC = () => {
           className="mb-12 text-center"
         >
           <div className="inline-flex items-center px-4 py-2 mb-4 border border-gray-200 rounded-full bg-white/50">
-            <span className="text-sm font-medium text-gray-500">Pourquoi NoévaCare ?</span>
+            <span className="text-sm font-medium text-gray-500">Pourquoi Tradeshop ?</span>
           </div>
           <h2 className="mb-4 text-3xl font-bold text-gray-900 md:text-4xl">
             Pourquoi nous choisir ?
