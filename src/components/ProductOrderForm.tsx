@@ -442,7 +442,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, MapPin, Globe, Home, AlertCircle, CheckCircle, Info, Gift } from 'lucide-react';
+import { X, MapPin, Home, AlertCircle, CheckCircle, Info, Gift } from 'lucide-react';
 import { Product, OrderFormData } from '../types';
 import toast from 'react-hot-toast';
 
@@ -525,29 +525,23 @@ const ProductOrderForm: React.FC<ProductOrderFormProps> = ({ product, quantity, 
     }
     
     // Format WhatsApp message
-    let message = `🛍️ NOUVELLE COMMANDE TradeSop 🛍️%0A%0A` +
-      `👤 Client: ${formData.firstName} ${formData.lastName}%0A` +
-      `📞 Téléphone: ${formData.phone}%0A` +
+    let message = `🛍️ COMMANDE TradeSop%0A` +
+      `👤 ${formData.firstName} ${formData.lastName}%0A` +
+      `📞 ${formData.phone}%0A` +
       locationLine +
-      `%0A📦 DÉTAIL DE LA COMMANDE:%0A` +
-      `━━━━━━━━━━━━━━━━━━%0A` +
-      `🔹 Produit: ${product.name}%0A` +
-      `🔹 Quantité: ${quantity}%0A`;
+      `📦 ${product.name}%0A` +
+      `${product.selectedColor ? `🔹 Couleur: ${product.selectedColor}%0A` : ''}` +
+      `🔹 Qté: ${quantity}%0A` +
+      `🔹 Prix: ${formatPrice(unitPrice)}%0A`;
 
-    // Ajouter le prix unitaire avec réduction si applicable
-    if (getDiscountMessage()) {
-      message += `🔹 Prix unitaire promo: ${formatPrice(unitPrice)}%0A`;
-    } else {
-      message += `🔹 Prix unitaire: ${formatPrice(unitPrice)}%0A`;
+    if (discountMessage) {
+      message += `🔹 ${discountMessage}%0A`;
     }
-    
-    message += `━━━━━━━━━━━━━━━━━━%0A` +
-      `💰 TOTAL: ${formatPrice(total)}%0A` +
-      `%0A💳 MODE DE PAIEMENT:%0A` +
-      `━━━━━━━━━━━━━━━━━━%0A` +
-      `${getPaymentMethod(formData.location)}%0A` +
-      `%0A📋 INFORMATIONS COMPLÉMENTAIRES:%0A` +
-      `━━━━━━━━━━━━━━━━━━%0A`;
+
+    message += `💰 Total: ${formatPrice(total)}%0A` +
+      `💳 ${getPaymentMethod(formData.location)}%0A` +
+      `${formData.notes ? `📝 ${formData.notes}%0A` : ''}` +
+      `📲 +225 0701006360`;
 
     // Ajouter le message de réduction si applicable
     if (discountMessage) {
@@ -593,7 +587,7 @@ const ProductOrderForm: React.FC<ProductOrderFormProps> = ({ product, quantity, 
     const locations: { [key: string]: string } = {
       abidjan: 'Abidjan',
       interior: 'Intérieur de la Côte d\'Ivoire',
-      exterior: 'Extérieur du pays',
+      // exterior: 'Extérieur du pays',
     };
     return locations[location] || location;
   };
@@ -698,6 +692,9 @@ const ProductOrderForm: React.FC<ProductOrderFormProps> = ({ product, quantity, 
                     <div className="flex items-center justify-between mt-2">
                       <div>
                         <p className="text-sm text-gray-600">Quantité: <span className="font-semibold">{quantity}</span></p>
+                        {product.selectedColor && (
+                          <p className="text-sm text-gray-600">Couleur: <span className="font-semibold">{product.selectedColor}</span></p>
+                        )}
                         {effectivePrice !== product.price && quantity >= 2 ? (
                           <>
                             <p className="text-sm text-gray-500 line-through">
@@ -794,7 +791,7 @@ const ProductOrderForm: React.FC<ProductOrderFormProps> = ({ product, quantity, 
                     {[
                       { value: 'abidjan', label: 'Abidjan', icon: Home, description: 'Livraison partout à Abidjan' },
                       { value: 'interior', label: 'Intérieur de la Côte d\'Ivoire', icon: MapPin, description: 'Expédition partout en CI 🇨🇮' },
-                      { value: 'exterior', label: 'Extérieur du pays', icon: Globe, description: 'Expédition internationale' },
+                      // { value: 'exterior', label: 'Extérieur du pays', icon: Globe, description: 'Expédition internationale' },
                     ].map((option) => {
                       const Icon = option.icon;
                       return (

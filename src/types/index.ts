@@ -1,3 +1,9 @@
+export interface ProductVariant {
+  color: string;
+  image: string;
+  descriptionSuffix?: string;
+}
+
 export interface Product {
   id: number;
   name: string;
@@ -10,6 +16,8 @@ export interface Product {
   category?: string;
   promo?: string;
   colors?: string[];
+  variants?: ProductVariant[];
+  selectedColor?: string;
   target?: string;
   benefits?: string[];
 }

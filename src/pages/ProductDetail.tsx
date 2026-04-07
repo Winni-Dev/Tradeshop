@@ -705,6 +705,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { products } from '../data/products';
 import ProductOrderForm from '../components/ProductOrderForm';
+import { Product } from '../types';
 import { 
   ChevronLeft, 
   ChevronRight, 
@@ -744,9 +745,34 @@ const ProductDetail: React.FC = () => {
   const navigate = useNavigate();
   const product = products.find((p) => p.id === Number(id));
   const [quantity, setQuantity] = useState(1);
+  const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
   const [isOrderFormOpen, setIsOrderFormOpen] = useState(false);
   const [currentProofIndex, setCurrentProofIndex] = useState(0);
   const [isImageLoading, setIsImageLoading] = useState(true);
+
+  const variants = product?.variants ?? [];
+  const activeVariant = variants[selectedVariantIndex];
+  const displayedImage = activeVariant?.image ?? product?.image ?? '';
+  const displayedDescription = activeVariant?.descriptionSuffix
+    ? `${product?.description ?? ''} ${activeVariant.descriptionSuffix}`
+    : product?.description ?? '';
+  const selectedColor = activeVariant?.color ?? product?.selectedColor;
+
+  useEffect(() => {
+    setIsImageLoading(true);
+  }, [displayedImage]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
+
+  const orderProduct = product
+    ? {
+        ...product,
+        selectedColor,
+        image: displayedImage,
+      }
+    : ({} as Product);
 
   const proofImages = [P1, P2, P3, P4, P5, P6, P7, P8, P9, P10];
 
@@ -844,12 +870,14 @@ const ProductDetail: React.FC = () => {
               <div className="absolute inset-0 bg-gradient-to-r from-beige-200 to-beige-300 animate-pulse" />
             )}
             <img
-              src={product.image}
-              alt={product.name}
+              src={displayedImage}
+              alt={`${product.name} ${selectedColor ?? ''}`.trim()}
+              loading="eager"
               className={`w-full h-[250px] object-cover transition-opacity duration-300 ${
                 isImageLoading ? 'opacity-0' : 'opacity-100'
               }`}
               onLoad={() => setIsImageLoading(false)}
+              onError={() => setIsImageLoading(false)}
             />
             <div className={`absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-2.5 py-1 rounded-full ${getProductBorderColor()}`}>
               <span className={`text-xs font-semibold ${getPriceColor()}`}>Nouveau</span>
@@ -859,7 +887,25 @@ const ProductDetail: React.FC = () => {
           {/* Product Info */}
           <div className="p-5">
             <h1 className="mb-2 text-2xl font-bold text-gray-900">{product.name}</h1>
-            <p className="mb-4 text-sm text-gray-600">{product.description}</p>
+            <p className="mb-4 text-sm text-gray-600">{displayedDescription}</p>
+            {variants.length > 1 && (
+              <div className="flex flex-wrap gap-2 mb-4">
+                {variants.map((variant, index) => (
+                  <button
+                    key={variant.color}
+                    type="button"
+                    onClick={() => setSelectedVariantIndex(index)}
+                    className={`px-3 py-1 rounded-full text-xs font-semibold transition border ${
+                      index === selectedVariantIndex
+                        ? 'bg-orange-600 text-white border-orange-600'
+                        : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-100'
+                    }`}
+                  >
+                    {variant.color}
+                  </button>
+                ))}
+              </div>
+            )}
             
             {/* Ratings */}
             <div className="flex items-center mb-4 space-x-2">
@@ -965,12 +1011,14 @@ const ProductDetail: React.FC = () => {
                 <div className="absolute inset-0 bg-gradient-to-r from-beige-200 to-beige-300 animate-pulse" />
               )}
               <img
-                src={product.image}
-                alt={product.name}
+                src={displayedImage}
+                alt={`${product.name} ${selectedColor ?? ''}`.trim()}
+                loading="eager"
                 className={`w-full h-[400px] object-cover transition-opacity duration-300 ${
                   isImageLoading ? 'opacity-0' : 'opacity-100'
                 }`}
                 onLoad={() => setIsImageLoading(false)}
+                onError={() => setIsImageLoading(false)}
               />
               <div className={`absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full ${getProductBorderColor()}`}>
                 <span className={`text-sm font-semibold ${getPriceColor()}`}>Nouveau</span>
@@ -998,7 +1046,25 @@ const ProductDetail: React.FC = () => {
             <div className="space-y-6">
               <div>
                 <h1 className="mb-3 text-3xl font-bold text-gray-900">{product.name}</h1>
-                <p className="text-gray-600">{product.description}</p>
+                <p className="text-gray-600">{displayedDescription}</p>
+                {variants.length > 1 && (
+                  <div className="flex flex-wrap gap-2 mt-4">
+                    {variants.map((variant, index) => (
+                      <button
+                        key={variant.color}
+                        type="button"
+                        onClick={() => setSelectedVariantIndex(index)}
+                        className={`px-3 py-1 rounded-full text-xs font-semibold transition border ${
+                          index === selectedVariantIndex
+                            ? 'bg-orange-600 text-white border-orange-600'
+                            : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-100'
+                        }`}
+                      >
+                        {variant.color}
+                      </button>
+                    ))}
+                  </div>
+                )}
                 
                 <div className="flex items-center mt-4 space-x-2">
                   <div className="flex">
@@ -1108,7 +1174,7 @@ const ProductDetail: React.FC = () => {
 
       {/* Order Form Modal */}
       <ProductOrderForm 
-        product={product} 
+        product={orderProduct} 
         quantity={quantity} 
         isOpen={isOrderFormOpen} 
         onClose={() => setIsOrderFormOpen(false)} 

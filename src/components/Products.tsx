@@ -68,6 +68,7 @@
 
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { products } from '../data/products';
 import ProductCard from './ProductCard';
@@ -100,7 +101,7 @@ const Products: React.FC = () => {
               transition={{ delay: index * 0.1 }}
             >
               <ProductCard product={product}>
-                <a href={`/produit/${product.id}`} className="block focus:outline-none focus:ring-2 focus:ring-primary-500 rounded-2xl" style={{display:'block', position:'absolute', top:0, left:0, width:'100%', height:'224px', zIndex:2}} aria-label={product.name}></a>
+                <Link to={`/produit/${product.id}`} className="block focus:outline-none focus:ring-2 focus:ring-primary-500 rounded-2xl" style={{display:'block', position:'absolute', top:0, left:0, width:'100%', height:'224px', zIndex:2}} aria-label={product.name}></Link>
               </ProductCard>
             </motion.div>
           ))}

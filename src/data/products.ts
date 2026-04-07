@@ -81,25 +81,16 @@
 
 
 // data/products.ts
-import braceletAcier from '../IMAGES/BRACpro.jpg';
+import { Product } from '../types';
+import braceletAcierArgent from '../IMAGES/BRACpro.jpg';
+import braceletAcier from '../IMAGES/ACCIER.jpg';
 import braceletCuivre from '../IMAGES/BRACCuipro.jpg';
 import braceletPersonnalise from '../IMAGES/BRAPERSpro.jpg';
+import braceletPersonnaliseArgent from '../IMAGES/BRPacc.jpg';
+import braceletPersonnaliseO from '../IMAGES/BRACEadldor.jpg';
+import braceletPersonnaliseArgentA from '../IMAGES/BRACEadlargent.jpg';
 import gourdeCuivre from '../IMAGES/GOURDpro.jpg';
-
-export interface Product {
-  id: number;
-  name: string;
-  price: number;
-  originalPrice?: number;
-  description: string;
-  longDescription: string;
-  features: string[];
-  image: string;
-  category: string;
-  promo?: string;
-  colors?: string[];
-  target?: string;
-}
+import braceletCuivreN2 from '../IMAGES/BRACEcuiN2.jpg';
 
 export const products: Product[] = [
   {
@@ -121,6 +112,18 @@ export const products: Product[] = [
     category: 'bracelet',
     promo: '2 bracelets à 10 000 FCFA',
     colors: ['Or', 'Argent'],
+    variants: [
+      {
+        color: 'Or',
+        image: braceletAcier,
+        descriptionSuffix: 'Version dorée',
+      },
+      {
+        color: 'Argent',
+        image: braceletAcierArgent,
+        descriptionSuffix: 'Version argentée',
+      }
+    ],
     target: 'Homme & Femme'
   },
   {
@@ -142,12 +145,56 @@ export const products: Product[] = [
     ],
     image: braceletCuivre,
     category: 'bracelet',
-    colors: ['Cuivre naturel'],
+    colors: ['Cuivre naturel N1', 'Cuivre naturel N2'],
+     variants: [
+      {
+        color: 'Cuivre naturel N1',
+        image: braceletCuivre,
+        descriptionSuffix: 'Version cuivre naturel N1',
+      },
+      {
+        color: 'Cuivre naturel N2',
+        image: braceletCuivreN2,
+        descriptionSuffix: 'Version cuivre naturel N2',
+      }
+    ],
     target: 'Homme & Femme'
   },
   {
     id: 3,
-    name: 'Bracelet Personnalisé',
+    name: 'Bracelet Personnalisé Enfant',
+    price: 8000,
+    originalPrice: 10000,
+    description: 'Bracelet personnalisable à votre image. Ne noircit pas et ne déteint pas.',
+    longDescription: 'Offrez-vous un bracelet unique à votre image. Personnalisez-le selon vos envies. Comme notre bracelet acier, il ne noircit pas et ne déteint pas. Disponible en Or et Argent.',
+    features: [
+      'Ne noircit pas ❌',
+      'Ne déteint pas ❌',
+      'Personnalisation possible',
+      'Couleurs : Or et Argent',
+      'Pour Garçon et Fille',
+    ],
+    image: braceletPersonnalise,
+    category: 'bracelet',
+    promo: '2 bracelets à 15 000 FCFA',
+    colors: ['Or', 'Argent'],
+    variants: [
+      {
+        color: 'Or',
+        image: braceletPersonnalise,
+        descriptionSuffix: 'Version dorée personnalisée',
+      },
+      {
+        color: 'Argent',
+        image: braceletPersonnaliseArgent,
+        descriptionSuffix: 'Version argentée personnalisée',
+      }
+    ],
+    target: 'Homme & Femme'
+  },
+    {
+  id: 4,
+    name: 'Bracelet Personnalisé Adulte',
     price: 8000,
     originalPrice: 10000,
     description: 'Bracelet personnalisable à votre image. Ne noircit pas et ne déteint pas.',
@@ -158,16 +205,27 @@ export const products: Product[] = [
       'Personnalisation possible',
       'Couleurs : Or et Argent',
       'Pour Homme et Femme',
-      'Fait main'
     ],
     image: braceletPersonnalise,
     category: 'bracelet',
     promo: '2 bracelets à 15 000 FCFA',
     colors: ['Or', 'Argent'],
+    variants: [
+      {
+        color: 'Or',
+        image: braceletPersonnaliseO,
+        descriptionSuffix: 'Version dorée personnalisée',
+      },
+      {
+        color: 'Argent',
+        image: braceletPersonnaliseArgentA,
+        descriptionSuffix: 'Version argentée personnalisée',
+      }
+    ],
     target: 'Homme & Femme'
   },
   {
-    id: 4,
+    id: 5,
     name: 'Gourde Cuivre Naturel',
     price: 25000,
     originalPrice: 35000,

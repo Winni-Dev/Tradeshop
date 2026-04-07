@@ -741,7 +741,7 @@ const OrderPopup: React.FC<OrderPopupProps> = ({ isOpen, onClose }) => {
                   >
                     <option value="abidjan">📍 Abidjan</option>
                     <option value="interior">🚛 Intérieur de la Côte d'Ivoire</option>
-                    <option value="exterior">🌍 Extérieur du pays</option>
+                    {/* <option value="exterior">🌍 Extérieur du pays</option> */}
                   </select>
                 </div>
 

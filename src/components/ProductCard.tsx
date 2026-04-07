@@ -152,12 +152,26 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, children }) => {
   const [quantity, setQuantity] = useState(1);
+  const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
   const [adding, setAdding] = useState(false);
   const { addItem } = useCart();
 
+  const variants = product.variants ?? [];
+  const activeVariant = variants[selectedVariantIndex];
+  const currentImage = activeVariant?.image ?? product.image;
+  const currentDescription = activeVariant?.descriptionSuffix
+    ? `${product.description} ${activeVariant.descriptionSuffix}`
+    : product.description;
+  const currentColor = activeVariant?.color ?? product.selectedColor;
+
   const handleAddToCart = () => {
     setAdding(true);
-    addItem(product, quantity);
+    const productToAdd = {
+      ...product,
+      selectedColor: currentColor,
+      image: currentImage,
+    };
+    addItem(productToAdd, quantity);
     toast.success(`${quantity} x ${product.name} ajouté au panier`, {
       position: 'top-right',
       duration: 2000,
@@ -201,12 +215,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, children }) => {
       <div className="flex flex-col h-full overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-sm rounded-xl hover:shadow-md">
         {/* Image container */}
         <div className="relative">
-          <div className="relative h-56 overflow-hidden bg-gray-50">
+          <div className="relative h-56 overflow-hidden bg-gray-50 flex items-center justify-center">
             <img
-              src={product.image}
-              alt={product.name}
-              className="object-cover w-full h-full transition-transform duration-500 transform group-hover:scale-105"
-              loading="lazy"
+              src={currentImage}
+              alt={`${product.name} ${currentColor ?? ''}`.trim()}
+              className="object-contain w-full h-full transition-transform duration-500 transform group-hover:scale-105"
             />
             {children}
             
@@ -229,8 +242,31 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, children }) => {
               {product.name}
             </h3>
             <p className="text-xs leading-relaxed text-gray-500 line-clamp-2">
-              {product.description}
+              {currentDescription}
             </p>
+            {currentColor && (
+              <p className="mt-2 text-[11px] uppercase tracking-[0.2em] text-amber-600">
+                {currentColor}
+              </p>
+            )}
+            {variants.length > 1 && (
+              <div className="flex flex-wrap gap-2 mt-3">
+                {variants.map((variant, index) => (
+                  <button
+                    key={variant.color}
+                    type="button"
+                    onClick={() => setSelectedVariantIndex(index)}
+                    className={`px-3 py-1 rounded-full border text-[11px] font-semibold transition ${
+                      index === selectedVariantIndex
+                        ? 'bg-amber-600 text-white border-amber-600'
+                        : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-100'
+                    }`}
+                  >
+                    {variant.color}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
           
           {/* Price section */}
