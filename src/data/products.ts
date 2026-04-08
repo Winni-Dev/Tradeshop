@@ -128,7 +128,7 @@ export const products: Product[] = [
   },
   {
     id: 2,
-    name: 'Bracelet Cuivre Naturel',
+    name: 'Bracelet Cuivre Naturel N1',
     price: 15000,
     originalPrice: 20000,
     description: 'Bracelet en cuivre naturel qui aide à soulager les douleurs articulaires.',
@@ -145,23 +145,33 @@ export const products: Product[] = [
     ],
     image: braceletCuivre,
     category: 'bracelet',
-    colors: ['Cuivre naturel N1', 'Cuivre naturel N2'],
-     variants: [
-      {
-        color: 'Cuivre naturel N1',
-        image: braceletCuivre,
-        descriptionSuffix: 'Version cuivre naturel N1',
-      },
-      {
-        color: 'Cuivre naturel N2',
-        image: braceletCuivreN2,
-        descriptionSuffix: 'Version cuivre naturel N2',
-      }
-    ],
+    colors: ['Cuivre naturel N1'],
     target: 'Homme & Femme'
   },
   {
     id: 3,
+    name: 'Bracelet Cuivre Naturel N2',
+    price: 15000,
+    originalPrice: 20000,
+    description: 'Bracelet en cuivre naturel qui aide à soulager les douleurs articulaires.',
+    longDescription: 'Le bracelet en cuivre naturel est reconnu pour ses bienfaits sur la santé. Il aide à soulager les douleurs articulaires, favorise la circulation sanguine et réduit le stress et la fatigue. Résistant et durable, il ne déteint pas et ne noircit pas.',
+    features: [
+      'Ne déteint pas ❌',
+      'Ne noircit pas ❌',
+      'Aide à soulager les douleurs articulaires',
+      'Favorise la circulation sanguine',
+      'Réduit le stress et la fatigue',
+      'Résistant et durable dans le temps',
+      'Couleur : Cuivre naturel',
+      'Pour Homme et Femme'
+    ],
+    image: braceletCuivreN2,
+    category: 'bracelet',
+    colors: ['Cuivre naturel N2'],
+    target: 'Homme & Femme'
+  },
+  {
+    id: 4,
     name: 'Bracelet Personnalisé Enfant',
     price: 8000,
     originalPrice: 10000,
@@ -193,7 +203,7 @@ export const products: Product[] = [
     target: 'Homme & Femme'
   },
     {
-  id: 4,
+  id: 5,
     name: 'Bracelet Personnalisé Adulte',
     price: 8000,
     originalPrice: 10000,
@@ -225,7 +235,7 @@ export const products: Product[] = [
     target: 'Homme & Femme'
   },
   {
-    id: 5,
+    id: 6,
     name: 'Gourde Cuivre Naturel',
     price: 25000,
     originalPrice: 35000,
